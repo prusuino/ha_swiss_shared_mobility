@@ -1,0 +1,7 @@
+{
+  "name": "Swiss Shared Mobility (sharedmobility.ch)",
+  "zip_release": true,
+  "filename": "swiss_shared_mobility.zip",
+  "render_readme": true,
+  "homeassistant": "2025.4.0"
+}

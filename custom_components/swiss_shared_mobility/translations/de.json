@@ -1,0 +1,109 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Swiss Shared Mobility",
+        "description": "Sharing-Velos, E-Trottinette und Autos von sharedmobility.ch (Bundesamt für Energie).",
+        "menu_options": {
+          "area": "Umkreis um einen Ort",
+          "station": "Favoriten-Station"
+        }
+      },
+      "area": {
+        "title": "Umkreis",
+        "description": "Alles, was im Umkreis ({min}–{max} m) verfügbar ist. Ort und Radius mit dem Kreis auf der Karte festlegen.",
+        "data": {
+          "name": "Name",
+          "location": "Ort und Radius",
+          "categories": "Fahrzeugtypen",
+          "scan_interval": "Abfrageintervall"
+        }
+      },
+      "station": {
+        "title": "Favoriten-Station",
+        "description": "Station eines stationsbasierten Angebots nach Namen suchen, z. B. einen Mobility-Standort oder eine Veloverleih-Station.",
+        "data": {
+          "search": "Name der Station"
+        }
+      },
+      "station_pick": {
+        "title": "Station wählen",
+        "data": {
+          "station_id": "Station"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "sharedmobility.ch ist nicht erreichbar. Bitte später nochmals versuchen.",
+      "radius_out_of_range": "Der Radius muss zwischen 100 und 2000 m liegen.",
+      "no_category": "Mindestens einen Fahrzeugtyp wählen.",
+      "no_results": "Keine Station gefunden. Einen kürzeren oder anderen Namen versuchen."
+    },
+    "abort": {
+      "already_configured": "Dieser Umkreis bzw. diese Station ist bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen",
+        "data": {
+          "categories": "Fahrzeugtypen",
+          "providers": "Nur diese Anbieter (leer = alle)",
+          "scan_interval": "Abfrageintervall",
+          "show_on_map": "Nächste Fahrzeuge auf der Karte zeigen (max. 50)"
+        }
+      }
+    },
+    "error": {
+      "no_category": "Mindestens einen Fahrzeugtyp wählen."
+    }
+  },
+  "selector": {
+    "categories": {
+      "options": {
+        "bike": "Velo",
+        "e_bike": "E-Bike",
+        "cargo_bike": "Cargo-Bike",
+        "e_scooter": "E-Trottinett",
+        "moped": "Moped",
+        "car": "Auto",
+        "other": "Andere"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "available": {
+        "name": "Verfügbar"
+      },
+      "nearest": {
+        "name": "Nächstes Fahrzeug"
+      },
+      "station_available": {
+        "name": "Verfügbar"
+      },
+      "bike_available": {
+        "name": "Velo verfügbar"
+      },
+      "e_bike_available": {
+        "name": "E-Bike verfügbar"
+      },
+      "cargo_bike_available": {
+        "name": "Cargo-Bike verfügbar"
+      },
+      "e_scooter_available": {
+        "name": "E-Trottinett verfügbar"
+      },
+      "moped_available": {
+        "name": "Moped verfügbar"
+      },
+      "car_available": {
+        "name": "Auto verfügbar"
+      },
+      "other_available": {
+        "name": "Andere verfügbar"
+      }
+    }
+  }
+}

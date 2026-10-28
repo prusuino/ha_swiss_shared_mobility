@@ -1,0 +1,109 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Swiss Shared Mobility",
+        "description": "Shared bikes, e-scooters and cars from sharedmobility.ch (Swiss Federal Office of Energy).",
+        "menu_options": {
+          "area": "Area around a location",
+          "station": "Favorite station"
+        }
+      },
+      "area": {
+        "title": "Area",
+        "description": "Everything available within the radius ({min}–{max} m). Drag the circle on the map to set location and radius.",
+        "data": {
+          "name": "Name",
+          "location": "Location and radius",
+          "categories": "Vehicle types",
+          "scan_interval": "Update interval"
+        }
+      },
+      "station": {
+        "title": "Favorite station",
+        "description": "Search a station of a station-based system by name, e.g. a Mobility car-sharing location or a bike-sharing station.",
+        "data": {
+          "search": "Station name"
+        }
+      },
+      "station_pick": {
+        "title": "Choose the station",
+        "data": {
+          "station_id": "Station"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "sharedmobility.ch cannot be reached. Try again later.",
+      "radius_out_of_range": "The radius must be between 100 and 2000 m.",
+      "no_category": "Choose at least one vehicle type.",
+      "no_results": "No station found. Try a shorter or different name."
+    },
+    "abort": {
+      "already_configured": "This area or station is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "data": {
+          "categories": "Vehicle types",
+          "providers": "Only these providers (empty = all)",
+          "scan_interval": "Update interval",
+          "show_on_map": "Show nearest vehicles on the map (max. 50)"
+        }
+      }
+    },
+    "error": {
+      "no_category": "Choose at least one vehicle type."
+    }
+  },
+  "selector": {
+    "categories": {
+      "options": {
+        "bike": "Bike",
+        "e_bike": "E-bike",
+        "cargo_bike": "Cargo bike",
+        "e_scooter": "E-scooter",
+        "moped": "Moped",
+        "car": "Car",
+        "other": "Other"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "available": {
+        "name": "Available"
+      },
+      "nearest": {
+        "name": "Nearest vehicle"
+      },
+      "station_available": {
+        "name": "Available"
+      },
+      "bike_available": {
+        "name": "Bike available"
+      },
+      "e_bike_available": {
+        "name": "E-bike available"
+      },
+      "cargo_bike_available": {
+        "name": "Cargo bike available"
+      },
+      "e_scooter_available": {
+        "name": "E-scooter available"
+      },
+      "moped_available": {
+        "name": "Moped available"
+      },
+      "car_available": {
+        "name": "Car available"
+      },
+      "other_available": {
+        "name": "Other available"
+      }
+    }
+  }
+}

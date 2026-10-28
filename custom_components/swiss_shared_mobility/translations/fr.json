@@ -1,0 +1,109 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Swiss Shared Mobility",
+        "description": "Vélos, trottinettes électriques et voitures en partage de sharedmobility.ch (Office fédéral de l'énergie).",
+        "menu_options": {
+          "area": "Zone autour d'un lieu",
+          "station": "Station favorite"
+        }
+      },
+      "area": {
+        "title": "Zone",
+        "description": "Tout ce qui est disponible dans le rayon ({min}–{max} m). Placez le cercle sur la carte pour définir le lieu et le rayon.",
+        "data": {
+          "name": "Nom",
+          "location": "Lieu et rayon",
+          "categories": "Types de véhicules",
+          "scan_interval": "Intervalle de mise à jour"
+        }
+      },
+      "station": {
+        "title": "Station favorite",
+        "description": "Recherchez une station d'un système à stations par son nom, p. ex. un emplacement Mobility ou une station de vélos en libre-service.",
+        "data": {
+          "search": "Nom de la station"
+        }
+      },
+      "station_pick": {
+        "title": "Choisir la station",
+        "data": {
+          "station_id": "Station"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "sharedmobility.ch est injoignable. Réessayez plus tard.",
+      "radius_out_of_range": "Le rayon doit être compris entre 100 et 2000 m.",
+      "no_category": "Choisissez au moins un type de véhicule.",
+      "no_results": "Aucune station trouvée. Essayez un nom plus court ou différent."
+    },
+    "abort": {
+      "already_configured": "Cette zone ou cette station est déjà configurée."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "data": {
+          "categories": "Types de véhicules",
+          "providers": "Seulement ces fournisseurs (vide = tous)",
+          "scan_interval": "Intervalle de mise à jour",
+          "show_on_map": "Afficher les véhicules les plus proches sur la carte (max. 50)"
+        }
+      }
+    },
+    "error": {
+      "no_category": "Choisissez au moins un type de véhicule."
+    }
+  },
+  "selector": {
+    "categories": {
+      "options": {
+        "bike": "Vélo",
+        "e_bike": "Vélo électrique",
+        "cargo_bike": "Vélo cargo",
+        "e_scooter": "Trottinette électrique",
+        "moped": "Scooter",
+        "car": "Voiture",
+        "other": "Autre"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "available": {
+        "name": "Disponible"
+      },
+      "nearest": {
+        "name": "Véhicule le plus proche"
+      },
+      "station_available": {
+        "name": "Disponible"
+      },
+      "bike_available": {
+        "name": "Vélo disponible"
+      },
+      "e_bike_available": {
+        "name": "Vélo électrique disponible"
+      },
+      "cargo_bike_available": {
+        "name": "Vélo cargo disponible"
+      },
+      "e_scooter_available": {
+        "name": "Trottinette électrique disponible"
+      },
+      "moped_available": {
+        "name": "Scooter disponible"
+      },
+      "car_available": {
+        "name": "Voiture disponible"
+      },
+      "other_available": {
+        "name": "Autre disponible"
+      }
+    }
+  }
+}
