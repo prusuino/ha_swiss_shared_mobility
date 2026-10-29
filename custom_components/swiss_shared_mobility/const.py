@@ -31,6 +31,10 @@ CONF_SHOW_ON_MAP = "show_on_map"
 CONF_STATION_ID = "station_id"
 CONF_STATION_NAME = "station_name"
 CONF_SEARCH = "search"
+# Vehicle categories seen at a station so far (one sensor each when > 1).
+CONF_STATION_CATEGORIES = "station_categories"
+# Whether the station reports its vehicles one by one (split per category).
+CONF_STATION_SPLIT = "station_split"
 
 DEFAULT_RADIUS_M = 500
 MIN_RADIUS_M = 100

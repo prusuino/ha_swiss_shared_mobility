@@ -80,29 +80,50 @@
       "nearest": {
         "name": "Véhicule le plus proche"
       },
-      "station_available": {
-        "name": "Disponible"
+      "station_vehicles": {
+        "name": "Véhicules"
       },
       "bike_available": {
         "name": "Vélo disponible"
       },
+      "station_bike": {
+        "name": "Vélos"
+      },
       "e_bike_available": {
         "name": "Vélo électrique disponible"
+      },
+      "station_e_bike": {
+        "name": "Vélos électriques"
       },
       "cargo_bike_available": {
         "name": "Vélo cargo disponible"
       },
+      "station_cargo_bike": {
+        "name": "Vélos cargo"
+      },
       "e_scooter_available": {
         "name": "Trottinette électrique disponible"
+      },
+      "station_e_scooter": {
+        "name": "Trottinettes"
       },
       "moped_available": {
         "name": "Scooter disponible"
       },
+      "station_moped": {
+        "name": "Scooters"
+      },
       "car_available": {
         "name": "Voiture disponible"
       },
+      "station_car": {
+        "name": "Voitures"
+      },
       "other_available": {
         "name": "Autre disponible"
+      },
+      "station_other": {
+        "name": "Véhicules"
       }
     }
   }

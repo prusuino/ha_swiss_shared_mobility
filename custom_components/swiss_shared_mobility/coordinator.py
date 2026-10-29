@@ -18,7 +18,9 @@ from .const import (
     CONF_PROVIDERS,
     CONF_RADIUS,
     CONF_SCAN_INTERVAL,
+    CONF_STATION_CATEGORIES,
     CONF_STATION_ID,
+    CONF_STATION_SPLIT,
     DEFAULT_CATEGORIES,
     DEFAULT_SCAN_INTERVAL_MIN,
     DOMAIN,
@@ -64,9 +66,16 @@ def summarize(offers: list[Offer], categories: list[str], providers: list[str]) 
         if not matching:
             continue
         data.offers.append(offer)
-        for category in matching:
-            data.by_category[category] += offer.count
-        data.total += offer.count
+        if offer.by_category:
+            # Known split: only the selected types count.
+            for category in matching:
+                data.by_category[category] += offer.by_category.get(category, 0)
+            data.total += sum(offer.by_category.get(c, 0) for c in matching)
+        else:
+            # Unknown split: the station counts towards each type it offers.
+            for category in matching:
+                data.by_category[category] += offer.count
+            data.total += offer.count
         name = offer.provider_name or offer.provider_id
         total_by_provider[name] = total_by_provider.get(name, 0) + offer.count
     data.by_provider = dict(sorted(total_by_provider.items(), key=lambda kv: -kv[1]))
@@ -125,4 +134,32 @@ class StationCoordinator(DataUpdateCoordinator[Offer | None]):
         except SharedMobilityError as err:
             raise UpdateFailed(str(err)) from err
         station_id = entry.data[CONF_STATION_ID]
-        return next((o for o in offers if o.id == station_id), None)
+        offer = next((o for o in offers if o.id == station_id), None)
+        if offer is not None and offer.count > 0:
+            self._remember_categories(offer)
+        return offer
+
+    @property
+    def categories(self) -> list[str]:
+        """Vehicle categories seen at the station so far."""
+        return list(self.config_entry.data.get(CONF_STATION_CATEGORIES, []))
+
+    @property
+    def split_known(self) -> bool:
+        """Whether the station reports how its vehicles split by type."""
+        return bool(self.config_entry.data.get(CONF_STATION_SPLIT, False))
+
+    def _remember_categories(self, offer: Offer) -> None:
+        # An empty station reports no vehicle types, so the categories are
+        # collected over time. A new one updates the entry, which reloads it
+        # with the matching sensors. Without a known split the station's own
+        # type list counts.
+        found = {c for c, n in offer.by_category.items() if n > 0} if offer.by_category else set(offer.categories)
+        seen = sorted(set(self.categories) | found)
+        # Sticky, so one odd poll does not reload the entry back and forth.
+        split = self.split_known or bool(offer.by_category)
+        if seen != self.categories or split != self.split_known:
+            entry = self.config_entry
+            self.hass.config_entries.async_update_entry(
+                entry, data={**entry.data, CONF_STATION_CATEGORIES: seen, CONF_STATION_SPLIT: split}
+            )

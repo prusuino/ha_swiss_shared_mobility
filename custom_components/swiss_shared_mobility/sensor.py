@@ -38,7 +38,10 @@ def device_info(entry: ConfigEntry) -> DeviceInfo:
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     coordinator = entry.runtime_data
     if entry.data.get(CONF_ENTRY_TYPE) == ENTRY_TYPE_STATION:
-        async_add_entities([StationAvailableSensor(coordinator, entry)])
+        entities: list[SensorEntity] = [StationAvailableSensor(coordinator, entry)]
+        if len(coordinator.categories) > 1 and coordinator.split_known:
+            entities += [StationCategorySensor(coordinator, entry, c) for c in coordinator.categories]
+        async_add_entities(entities)
         return
     entities: list[SensorEntity] = [AreaTotalSensor(coordinator, entry), NearestSensor(coordinator, entry)]
     entities += [CategorySensor(coordinator, entry, category) for category in coordinator.categories]
@@ -140,13 +143,20 @@ class NearestSensor(_Base):
 
 
 class StationAvailableSensor(_Base):
-    _attr_translation_key = "station_available"
-    _attr_icon = "mdi:map-marker-check"
+    """Vehicles at the station, named after the vehicle type it holds."""
+
     _attr_state_class = SensorStateClass.MEASUREMENT
 
     def __init__(self, coordinator: StationCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry, "available")
         self._station_name = entry.data[CONF_STATION_NAME]
+        categories = coordinator.categories
+        if len(categories) == 1:
+            self._attr_translation_key = f"station_{categories[0]}"
+            self._attr_icon = CATEGORY_ICONS.get(categories[0])
+        else:
+            self._attr_translation_key = "station_vehicles"
+            self._attr_icon = "mdi:map-marker-check"
 
     @property
     def available(self) -> bool:
@@ -169,6 +179,7 @@ class StationAvailableSensor(_Base):
             {
                 "provider": offer.provider_name,
                 "categories": offer.categories,
+                "by_category": offer.by_category if offer.count else {c: 0 for c in self.coordinator.categories},
                 "renting": offer.extra.get("station_status_renting", True),
                 "returning": offer.extra.get("station_status_returning", True),
             }
@@ -176,3 +187,26 @@ class StationAvailableSensor(_Base):
         if "station_address" in offer.extra:
             attrs["address"] = offer.extra["station_address"]
         return attrs
+
+
+class StationCategorySensor(_Base):
+    """Vehicles of one category at a station holding several categories."""
+
+    _attr_state_class = SensorStateClass.MEASUREMENT
+
+    def __init__(self, coordinator: StationCoordinator, entry: ConfigEntry, category: str) -> None:
+        super().__init__(coordinator, entry, f"{category}_available")
+        self._category = category
+        self._attr_translation_key = f"{category}_available"
+        self._attr_icon = CATEGORY_ICONS.get(category)
+
+    @property
+    def available(self) -> bool:
+        return super().available and self.coordinator.data is not None
+
+    @property
+    def native_value(self) -> int | None:
+        offer = self.coordinator.data
+        if offer is None:
+            return None
+        return offer.by_category.get(self._category, 0)

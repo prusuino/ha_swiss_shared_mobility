@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import math
+from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -43,6 +44,9 @@ class Offer:
     longitude: float
     categories: list[str]
     count: int
+    # Available vehicles per category; empty when a station holding several
+    # categories does not say how its vehicles split.
+    by_category: dict[str, int] = field(default_factory=dict)
     station_name: str | None = None
     distance_m: float = 0.0
     extra: dict[str, Any] = field(default_factory=dict)
@@ -97,6 +101,16 @@ def parse_feature(feature: dict[str, Any], lat: float | None = None, lon: float 
         )
         count = 1 if usable else 0
 
+    # Some stations list one vehicle_type per available vehicle (Mobility),
+    # others only the types they accept (Velospot); only the first is a split.
+    per_type = Counter(category_of(v) for v in vtypes)
+    if count and sum(per_type.values()) == count:
+        by_category = dict(per_type)
+    elif len(categories) == 1:
+        by_category = {categories[0]: count}
+    else:
+        by_category = {}
+
     offer = Offer(
         id=str(attrs.get("id") or feature.get("id") or ""),
         provider_id=str(attrs.get("provider_id") or ""),
@@ -106,6 +120,7 @@ def parse_feature(feature: dict[str, Any], lat: float | None = None, lon: float 
         longitude=f_lon,
         categories=categories,
         count=count,
+        by_category=by_category,
         station_name=attrs.get("station_name"),
         extra={
             k: attrs[k]

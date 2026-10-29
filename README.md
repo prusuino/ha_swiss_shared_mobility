@@ -28,13 +28,14 @@ sharedmobility.ch combines the live data of the Swiss shared-mobility providers 
 
 `<name>` is the name you give the area, e.g. `sensor.shared_mobility_home_available`. Entity IDs are English whatever language Home Assistant uses.
 
-A station-based offer (e.g. a car-sharing location with three cars) counts as all of its available vehicles. Vehicles a provider reports as disabled or reserved are not counted.
+A station-based offer (e.g. a car-sharing location with three cars) counts with all of its available vehicles, split by vehicle type. Vehicles a provider reports as disabled or reserved are not counted.
 
 ### Station
 
 | Entity | Description |
 |---|---|
-| `sensor.shared_mobility_<station>_available` | Number of vehicles available at the station. Attributes: provider, vehicle types, address (if published), whether the station is renting/returning. Unavailable while the provider does not report the station. |
+| `sensor.shared_mobility_<station>_available` | Number of vehicles available at the station, named after the vehicle type (e.g. "Olten Bahnhof (Mobility) Cars"; "Vehicles" if the station holds several types). Attributes: provider, vehicle types, `by_category` (count per type), address (if published), whether the station is renting/returning. Unavailable while the provider does not report the station. |
+| `sensor.shared_mobility_<station>_<type>_available` | Only for stations holding several vehicle types whose provider reports each vehicle: one count per type. Types are learned while the station has vehicles, so a sensor can appear later. Some providers (e.g. Velospot) only publish which types a station accepts — those stations get the single "Vehicles" sensor. |
 
 ## Installation
 
