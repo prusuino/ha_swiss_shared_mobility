@@ -2,7 +2,7 @@
 
 ![Swiss Shared Mobility](docs/readme_header.png)
 
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![marketplace_badge](https://img.shields.io/badge/Marketplace-Custom-41BDF5.svg)](https://hacs.xyz/docs/marketplace/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 <a href="https://www.buymeacoffee.com/prusuino"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="20"></a>
 
@@ -39,11 +39,11 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
 
 ## Installation
 
-### HACS (custom repository)
+### Home Assistant Marketplace (custom repository)
 
-1. Open **HACS → ⋮ → Custom repositories**, add `https://github.com/prusuino/ha_swiss_shared_mobility` with category **Integration** — or use the button:
+1. Open **Settings → Marketplace → ⋮ → Custom repositories** (Home Assistant 2026.11 or newer; on older versions **HACS → ⋮ → Custom repositories**), add `https://github.com/prusuino/ha_swiss_shared_mobility` with category **Integration** — or use the button:
 
-   [![Open in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=prusuino&repository=ha_swiss_shared_mobility&category=integration)
+   [![Open in Marketplace](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=prusuino&repository=ha_swiss_shared_mobility&category=integration)
 
 2. Download **Swiss Shared Mobility** and restart Home Assistant.
 
