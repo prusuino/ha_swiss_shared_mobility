@@ -144,6 +144,7 @@ That view is regenerated like the full dashboard is, so new config entries still
 - Data freshness depends on each provider's own feed. sharedmobility.ch refreshes about every minute; the default polling of 2 minutes keeps the load on the public API low.
 - Some providers report their vehicles only with the generic type "Other" — tick **Other** if a provider you expect is missing.
 - If the API is unreachable, the sensors become unavailable instead of showing stale data.
+- **Download diagnostics** (entry menu under **Settings → Devices & services**) gives the entry's configuration, what the integration last fetched and the current state of its entities, with coordinates and credentials redacted — attach it to an issue report when something looks wrong.
 
 ## Data source & license
 
