@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 — 2026-11-06
+
+- Fixed: the manifest now declares the dependency on Home Assistant's `http` component, which serves the dashboard strategy file. Nothing changes at runtime (`http` is always loaded); it is what Home Assistant's manifest validation (hassfest) requires.
+
 ## 1.1.0 — 2026-11-06
 
 - **New: a dashboard strategy.** The integration now serves `/swiss_shared_mobility_files/swiss-shared-mobility-dashboard.js`, a recipe Home Assistant renders in the browser: a map of the vehicles around your areas, one section per area (total, nearest vehicle, one tile per vehicle type) and one per favourite station — generated live from your config entries, nothing is written into your dashboard configuration. Register the file once as a Lovelace resource (JavaScript module), then pick *Swiss Shared Mobility* under **Settings → Dashboards → + Add dashboard**, or fill a single view of your own dashboard with `custom:swiss-shared-mobility`; `title`, `max_columns` and `map: false` can be set under `strategy:`. The README has the details.
