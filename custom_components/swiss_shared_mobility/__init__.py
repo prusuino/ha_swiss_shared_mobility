@@ -7,6 +7,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import CONF_ENTRY_TYPE, ENTRY_TYPE_STATION
 from .coordinator import AreaCoordinator, StationCoordinator
+from .frontend import async_serve_frontend
 
 PLATFORMS_AREA = [Platform.SENSOR, Platform.GEO_LOCATION]
 PLATFORMS_STATION = [Platform.SENSOR]
@@ -24,6 +25,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator
 
+    await async_serve_frontend(hass)
     await hass.config_entries.async_forward_entry_setups(entry, _platforms(entry))
     entry.async_on_unload(entry.add_update_listener(_async_options_updated))
     return True

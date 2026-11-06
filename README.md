@@ -60,6 +60,84 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
    - **Favorite station**: search the station by name (e.g. "Olten Bahnhof"), then pick it from the list. Only station-based systems have stations; free-floating vehicles are covered by an area.
 3. Later changes (vehicle types, provider filter, interval, map markers) via **Configure** on the integration entry.
 
+## Dashboard
+
+The integration ships a **dashboard strategy**: a recipe Home Assistant renders in the browser, rather than a dashboard written into your configuration. Nothing is stored, nothing is overwritten, and the result follows your setup — add a config entry and its section appears on the next page load; remove one and it is gone.
+
+The integration deliberately does not create or modify any dashboard on your behalf — your dashboards stay entirely under your own control.
+
+### Adding the strategy as a resource
+
+The integration serves the strategy file, but registering it as a Lovelace resource is left to you — the resource list is part of your dashboard configuration, and an integration has no business writing into it. It is a one-time step:
+
+**Settings → Dashboards → ⋮ (top right) → Resources → + Add resource**
+
+| Field | Value |
+|---|---|
+| URL | `/swiss_shared_mobility_files/swiss-shared-mobility-dashboard.js` |
+| Resource type | JavaScript module |
+
+The *Resources* entry is only shown when **Advanced mode** is enabled in your user profile (click your name at the bottom of the sidebar). Then reload the page (Ctrl/Cmd+Shift+R).
+
+### Using the strategy
+
+1. **Settings → Dashboards → + Add dashboard → New dashboard from scratch**, give it a name.
+2. Open it, then **✏️ (edit) → ⋮ → Raw configuration editor**.
+3. Replace the entire content with:
+
+```yaml
+strategy:
+  type: custom:swiss-shared-mobility
+views: []
+```
+
+4. Save.
+
+You get:
+
+- a **Map** view — the vehicles currently reported around your areas on a full-screen map, zoomed to fit them. It is only there while an area has *show on map* enabled and vehicles are reported; the markers are transient, so the view appears and disappears with them;
+- an **Areas** view — one section per area: the total, the distance to the nearest vehicle and one tile per vehicle type;
+- a **Stations** view — one section per favourite station with its vehicle count, and one tile per type for stations that report several. The source is credited at the bottom.
+
+The strategy also appears under **+ Add dashboard** as *Swiss Shared Mobility*, which does the same thing without the raw editor.
+
+Everything the strategy produces is a normal Home Assistant dashboard built from standard cards. If you would rather arrange things yourself, the entities above are all you need — the strategy is an offer, not a requirement.
+
+### Adjusting the strategy
+
+A strategy dashboard has no card editor — the layout is generated fresh on every load. You still have two ways to shape it without giving that up:
+
+**Options.** Anything you add under `strategy:` is passed to the recipe:
+
+```yaml
+strategy:
+  type: custom:swiss-shared-mobility
+  title: My title
+  max_columns: 3
+views: []
+```
+
+| Option | Effect |
+|---|---|
+| `title` | dashboard title |
+| `max_columns` | column count of the generated section views |
+| `map: false` | leave out the map view |
+
+**One view inside your own dashboard.** Instead of a separate dashboard, let the strategy fill a single view of one you already have. Open your dashboard's raw configuration editor and add a view:
+
+```yaml
+views:
+  - title: Home
+    # ... your own cards ...
+  - title: Swiss Shared Mobility
+    strategy:
+      type: custom:swiss-shared-mobility
+```
+
+That view is regenerated like the full dashboard is, so new config entries still appear by themselves, while every other view stays yours to edit. The same options work here too.
+
+> **Take control** (⋮ menu) turns a strategy dashboard into a static one you can edit card by card — but it is one-way: the dashboard stops following your config entries from then on. Prefer the two approaches above.
+
 ## Notes
 
 - Only relevant for locations in Switzerland (and Liechtenstein, where a few providers report too).
