@@ -1,0 +1,57 @@
+vehicles_available:
+  fields:
+    behavior:
+      required: true
+      default: any
+      selector:
+        automation_behavior:
+          mode: condition
+    for:
+      required: true
+      default: 00:00:00
+      selector:
+        duration:
+    level:
+      required: false
+      default: 1
+      example: 1
+      selector:
+        number:
+          min: 1
+          max: 100
+          step: 1
+          mode: box
+  target:
+  entity:
+    - integration: swiss_shared_mobility
+      domain: sensor
+
+nearest_vehicle_within:
+  fields:
+    behavior:
+      required: true
+      default: any
+      selector:
+        automation_behavior:
+          mode: condition
+    for:
+      required: true
+      default: 00:00:00
+      selector:
+        duration:
+    metres:
+      required: false
+      default: 500
+      example: 500
+      selector:
+        number:
+          min: 1
+          max: 50000
+          step: 10
+          mode: box
+          unit_of_measurement: m
+  target:
+    entity:
+      - integration: swiss_shared_mobility
+        domain: sensor
+        device_class: distance

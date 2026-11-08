@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0 — 2026-11-08
+
+- **New: triggers and conditions in the automation editor** (Home Assistant 2026.10 / 2026.11 or newer). Triggers: *Vehicle count crossed a threshold* (available vehicles of an area or station, all or one category) and *Nearest vehicle crossed a distance*. Conditions: *Vehicles are available* (at least a minimum number) and *Nearest vehicle is within* (a distance in metres). In all four languages; on older versions the entries are simply not offered.
+
 ## 1.2.1 — 2026-11-06
 
 - **Fixed: the diagnostics download could contain private values.** The entry's unique id went out unredacted: depending on the integration it holds the coordinates of the entry or, for a VKF entry of Swiss Hail Protection, the device serial. The text of the last error could also repeat a request URL. The unique id, the entry title and the entry's name and location fields are now redacted, and only the type of the last error is reported. If you have shared a diagnostics file from the previous version, consider it exposed.

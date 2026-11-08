@@ -138,6 +138,38 @@ That view is regenerated like the full dashboard is, so new config entries still
 
 > **Take control** (⋮ menu) turns a strategy dashboard into a static one you can edit card by card — but it is one-way: the dashboard stops following your config entries from then on. Prefer the two approaches above.
 
+## Automations
+
+On Home Assistant 2026.10 or newer the integration adds its own entries to the automation editor's trigger list, on 2026.11 or newer also to the condition list. They target the integration's own sensors (pick an entity, an entry's device or an area); the usual *for* duration and behaviour options apply.
+
+| Trigger | Fires when |
+|---|---|
+| **Vehicle count crossed a threshold** | the number of available vehicles of an area or a station (all vehicles or one category) crosses the threshold you set |
+| **Nearest vehicle crossed a distance** | the distance to the nearest vehicle of an area crosses the distance you set (metres) |
+
+| Condition | Passes while |
+|---|---|
+| **Vehicles are available** | at least the **minimum number** of vehicles is available |
+| **Nearest vehicle is within** | the nearest vehicle is within the **distance** in metres |
+
+```yaml
+triggers:
+  - trigger: swiss_shared_mobility.vehicle_count_crossed_threshold
+    target:
+      entity_id: sensor.shared_mobility_zurich_hb_e_bike_available
+    options:
+      threshold:
+        type: above
+        value:
+          number: 0
+conditions:
+  - condition: swiss_shared_mobility.nearest_vehicle_within
+    target:
+      entity_id: sensor.shared_mobility_zurich_hb_nearest
+    options:
+      metres: 300
+```
+
 ## Notes
 
 - Only relevant for locations in Switzerland (and Liechtenstein, where a few providers report too).

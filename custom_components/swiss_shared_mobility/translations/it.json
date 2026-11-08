@@ -126,5 +126,69 @@
         "name": "Veicoli"
       }
     }
+  },
+  "triggers": {
+    "vehicle_count_crossed_threshold": {
+      "name": "Numero di veicoli ha superato una soglia",
+      "description": "Si attiva quando il numero di veicoli disponibili di un'area o di una stazione (tutti i veicoli o una categoria) attraversa la soglia impostata.",
+      "fields": {
+        "behavior": {
+          "name": "Attiva quando"
+        },
+        "for": {
+          "name": "Per almeno"
+        },
+        "threshold": {
+          "name": "Soglia"
+        }
+      }
+    },
+    "nearest_vehicle_crossed_distance": {
+      "name": "Veicolo più vicino ha superato una distanza",
+      "description": "Si attiva quando la distanza dal veicolo più vicino di un'area attraversa la distanza impostata, in metri.",
+      "fields": {
+        "behavior": {
+          "name": "Attiva quando"
+        },
+        "for": {
+          "name": "Per almeno"
+        },
+        "threshold": {
+          "name": "Soglia"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "vehicles_available": {
+      "name": "Veicoli disponibili",
+      "description": "Soddisfatta finché in un'area o in una stazione è disponibile almeno il numero minimo di veicoli.",
+      "fields": {
+        "behavior": {
+          "name": "Condizione soddisfatta se"
+        },
+        "for": {
+          "name": "Per almeno"
+        },
+        "level": {
+          "name": "Numero minimo"
+        }
+      }
+    },
+    "nearest_vehicle_within": {
+      "name": "Veicolo più vicino entro",
+      "description": "Soddisfatta finché il veicolo più vicino di un'area si trova entro la distanza indicata.",
+      "fields": {
+        "behavior": {
+          "name": "Condizione soddisfatta se"
+        },
+        "for": {
+          "name": "Per almeno"
+        },
+        "metres": {
+          "name": "Distanza (m)"
+        }
+      }
+    }
   }
 }

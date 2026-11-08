@@ -126,5 +126,69 @@
         "name": "Fahrzeuge"
       }
     }
+  },
+  "triggers": {
+    "vehicle_count_crossed_threshold": {
+      "name": "Fahrzeuganzahl hat Schwellenwert überschritten",
+      "description": "Löst aus, wenn die Anzahl verfügbarer Fahrzeuge eines Gebiets oder einer Station (alle Fahrzeuge oder eine Kategorie) den gesetzten Schwellenwert über- oder unterschreitet.",
+      "fields": {
+        "behavior": {
+          "name": "Auslösen wenn"
+        },
+        "for": {
+          "name": "Mindestens für"
+        },
+        "threshold": {
+          "name": "Schwellenwert"
+        }
+      }
+    },
+    "nearest_vehicle_crossed_distance": {
+      "name": "Nächstes Fahrzeug hat Distanz überschritten",
+      "description": "Löst aus, wenn die Distanz zum nächsten Fahrzeug eines Gebiets die gesetzte Distanz in Metern über- oder unterschreitet.",
+      "fields": {
+        "behavior": {
+          "name": "Auslösen wenn"
+        },
+        "for": {
+          "name": "Mindestens für"
+        },
+        "threshold": {
+          "name": "Schwellenwert"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "vehicles_available": {
+      "name": "Fahrzeuge sind verfügbar",
+      "description": "Erfüllt, solange in einem Gebiet oder an einer Station mindestens die Mindestanzahl Fahrzeuge verfügbar ist.",
+      "fields": {
+        "behavior": {
+          "name": "Bedingung erfüllt wenn"
+        },
+        "for": {
+          "name": "Mindestens für"
+        },
+        "level": {
+          "name": "Mindestanzahl"
+        }
+      }
+    },
+    "nearest_vehicle_within": {
+      "name": "Nächstes Fahrzeug ist innerhalb",
+      "description": "Erfüllt, solange das nächste Fahrzeug eines Gebiets innerhalb der Distanz liegt.",
+      "fields": {
+        "behavior": {
+          "name": "Bedingung erfüllt wenn"
+        },
+        "for": {
+          "name": "Mindestens für"
+        },
+        "metres": {
+          "name": "Distanz (m)"
+        }
+      }
+    }
   }
 }

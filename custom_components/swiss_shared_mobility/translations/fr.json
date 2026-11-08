@@ -126,5 +126,69 @@
         "name": "Véhicules"
       }
     }
+  },
+  "triggers": {
+    "vehicle_count_crossed_threshold": {
+      "name": "Nombre de véhicules a franchi un seuil",
+      "description": "Se déclenche quand le nombre de véhicules disponibles d'une zone ou d'une station (tous les véhicules ou une catégorie) franchit le seuil fixé.",
+      "fields": {
+        "behavior": {
+          "name": "Déclencher quand"
+        },
+        "for": {
+          "name": "Pendant au moins"
+        },
+        "threshold": {
+          "name": "Seuil"
+        }
+      }
+    },
+    "nearest_vehicle_crossed_distance": {
+      "name": "Véhicule le plus proche a franchi une distance",
+      "description": "Se déclenche quand la distance jusqu'au véhicule le plus proche d'une zone franchit la distance fixée, en mètres.",
+      "fields": {
+        "behavior": {
+          "name": "Déclencher quand"
+        },
+        "for": {
+          "name": "Pendant au moins"
+        },
+        "threshold": {
+          "name": "Seuil"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "vehicles_available": {
+      "name": "Des véhicules sont disponibles",
+      "description": "Remplie tant qu'au moins le nombre minimal de véhicules est disponible dans une zone ou à une station.",
+      "fields": {
+        "behavior": {
+          "name": "Condition remplie si"
+        },
+        "for": {
+          "name": "Pendant au moins"
+        },
+        "level": {
+          "name": "Nombre minimal"
+        }
+      }
+    },
+    "nearest_vehicle_within": {
+      "name": "Véhicule le plus proche est à moins de",
+      "description": "Remplie tant que le véhicule le plus proche d'une zone se trouve dans la distance indiquée.",
+      "fields": {
+        "behavior": {
+          "name": "Condition remplie si"
+        },
+        "for": {
+          "name": "Pendant au moins"
+        },
+        "metres": {
+          "name": "Distance (m)"
+        }
+      }
+    }
   }
 }

@@ -126,5 +126,69 @@
         "name": "Vehicles"
       }
     }
+  },
+  "triggers": {
+    "vehicle_count_crossed_threshold": {
+      "name": "Vehicle count crossed a threshold",
+      "description": "Triggers when the number of available vehicles of an area or a station (all vehicles or one category) crosses the threshold you set.",
+      "fields": {
+        "behavior": {
+          "name": "Trigger when"
+        },
+        "for": {
+          "name": "For at least"
+        },
+        "threshold": {
+          "name": "Threshold"
+        }
+      }
+    },
+    "nearest_vehicle_crossed_distance": {
+      "name": "Nearest vehicle crossed a distance",
+      "description": "Triggers when the distance to the nearest vehicle of an area crosses the distance you set, in metres.",
+      "fields": {
+        "behavior": {
+          "name": "Trigger when"
+        },
+        "for": {
+          "name": "For at least"
+        },
+        "threshold": {
+          "name": "Threshold"
+        }
+      }
+    }
+  },
+  "conditions": {
+    "vehicles_available": {
+      "name": "Vehicles are available",
+      "description": "Passes while at least the minimum number of vehicles is available in an area or at a station.",
+      "fields": {
+        "behavior": {
+          "name": "Condition passes when"
+        },
+        "for": {
+          "name": "For at least"
+        },
+        "level": {
+          "name": "Minimum number"
+        }
+      }
+    },
+    "nearest_vehicle_within": {
+      "name": "Nearest vehicle is within",
+      "description": "Passes while the nearest vehicle of an area is within the distance.",
+      "fields": {
+        "behavior": {
+          "name": "Condition passes when"
+        },
+        "for": {
+          "name": "For at least"
+        },
+        "metres": {
+          "name": "Distance (m)"
+        }
+      }
+    }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "triggers": {
+    "vehicle_count_crossed_threshold": {
+      "trigger": "mdi:counter"
+    },
+    "nearest_vehicle_crossed_distance": {
+      "trigger": "mdi:map-marker-distance"
+    }
+  },
+  "conditions": {
+    "vehicles_available": {
+      "condition": "mdi:bike"
+    },
+    "nearest_vehicle_within": {
+      "condition": "mdi:map-marker-radius"
+    }
+  }
+}

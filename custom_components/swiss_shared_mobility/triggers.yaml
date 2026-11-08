@@ -1,0 +1,68 @@
+.count_target: &count_target
+  entity:
+    - integration: swiss_shared_mobility
+      domain: sensor
+
+vehicle_count_crossed_threshold:
+  fields:
+    behavior:
+      required: true
+      default: each
+      selector:
+        automation_behavior:
+          mode: trigger
+    for:
+      required: true
+      default: 00:00:00
+      selector:
+        duration:
+    threshold:
+      required: true
+      selector:
+        numeric_threshold:
+          mode: crossed
+          entity:
+            - domain: input_number
+            - domain: number
+            - domain: sensor
+          number:
+            min: 0
+            step: 1
+            mode: box
+  target: *count_target
+
+nearest_vehicle_crossed_distance:
+  fields:
+    behavior:
+      required: true
+      default: each
+      selector:
+        automation_behavior:
+          mode: trigger
+    for:
+      required: true
+      default: 00:00:00
+      selector:
+        duration:
+    threshold:
+      required: true
+      selector:
+        numeric_threshold:
+          mode: crossed
+          entity:
+            - domain: input_number
+              unit_of_measurement: "m"
+            - domain: number
+              unit_of_measurement: "m"
+            - domain: sensor
+              unit_of_measurement: "m"
+          number:
+            min: 0
+            step: any
+            mode: box
+            unit_of_measurement: "m"
+  target:
+    entity:
+      - integration: swiss_shared_mobility
+        domain: sensor
+        device_class: distance
