@@ -40,7 +40,8 @@
       "no_results": "Aucune station trouvée. Essayez un nom plus court ou différent."
     },
     "abort": {
-      "already_configured": "Cette zone ou cette station est déjà configurée."
+      "already_configured": "Cette zone ou cette station est déjà configurée.",
+      "reconfigure_successful": "L'entrée a été mise à jour et l'intégration rechargée."
     }
   },
   "options": {

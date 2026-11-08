@@ -40,7 +40,8 @@
       "no_results": "No station found. Try a shorter or different name."
     },
     "abort": {
-      "already_configured": "This area or station is already set up."
+      "already_configured": "This area or station is already set up.",
+      "reconfigure_successful": "The entry was updated and the integration reloaded."
     }
   },
   "options": {

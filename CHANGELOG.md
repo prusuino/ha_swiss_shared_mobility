@@ -2,6 +2,7 @@
 
 ## 1.3.0 — 2026-11-08
 
+- **New: reconfigure an entry in place.** The entry's menu under **Settings → Devices & services** now offers *Reconfigure*, which runs the same steps as the setup: a new name, location, radius, categories or interval for an area, another station for a station entry. The entry keeps its id and the user's options; entities of a selection that stays keep their ids and history, entities of one that is replaced are recreated. A change that would duplicate another entry is refused.
 - **New: triggers and conditions in the automation editor** (Home Assistant 2026.10 / 2026.11 or newer). Triggers: *Vehicle count crossed a threshold* (available vehicles of an area or station, all or one category) and *Nearest vehicle crossed a distance*. Conditions: *Vehicles are available* (at least a minimum number) and *Nearest vehicle is within* (a distance in metres). In all four languages; on older versions the entries are simply not offered.
 
 ## 1.2.1 — 2026-11-06

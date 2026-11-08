@@ -40,7 +40,8 @@
       "no_results": "Nessuna stazione trovata. Prova un nome più corto o diverso."
     },
     "abort": {
-      "already_configured": "Quest'area o questa stazione è già configurata."
+      "already_configured": "Quest'area o questa stazione è già configurata.",
+      "reconfigure_successful": "La voce è stata aggiornata e l'integrazione ricaricata."
     }
   },
   "options": {

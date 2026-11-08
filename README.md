@@ -60,6 +60,8 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
    - **Favorite station**: search the station by name (e.g. "Olten Bahnhof"), then pick it from the list. Only station-based systems have stations; free-floating vehicles are covered by an area.
 3. Later changes (vehicle types, provider filter, interval, map markers) via **Configure** on the integration entry.
 
+**Changing an entry later.** Open the entry's menu (⋮) under **Settings → Devices & Services** and choose **Reconfigure**: an area takes a new name, location, radius, categories or interval, a station entry runs the station search again. The entry keeps its id and the other options; entities keep their ids where the selection stays.
+
 ## Dashboard
 
 The integration ships a **dashboard strategy**: a recipe Home Assistant renders in the browser, rather than a dashboard written into your configuration. Nothing is stored, nothing is overwritten, and the result follows your setup — add a config entry and its section appears on the next page load; remove one and it is gone.

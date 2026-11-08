@@ -40,7 +40,8 @@
       "no_results": "Keine Station gefunden. Einen kürzeren oder anderen Namen versuchen."
     },
     "abort": {
-      "already_configured": "Dieser Umkreis bzw. diese Station ist bereits eingerichtet."
+      "already_configured": "Dieser Umkreis bzw. diese Station ist bereits eingerichtet.",
+      "reconfigure_successful": "Der Eintrag wurde aktualisiert und die Integration neu geladen."
     }
   },
   "options": {

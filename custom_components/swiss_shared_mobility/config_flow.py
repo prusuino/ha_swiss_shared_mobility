@@ -12,6 +12,7 @@ from typing import Any
 
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
+from homeassistant.helpers import entity_registry as er
 from homeassistant.core import callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.selector import (
@@ -27,6 +28,10 @@ from homeassistant.helpers.selector import (
     SelectSelectorMode,
     TextSelector,
 )
+
+# Whether the entry's update listener reloads the entry on a change (then a
+# reconfigure must not reload again, see _finish).
+_LISTENER_RELOADS = True
 
 from .api import Offer, SharedMobilityClient, SharedMobilityError
 from .const import (
@@ -83,11 +88,79 @@ class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         self._candidates: dict[str, Offer] = {}
+        self._entry: ConfigEntry | None = None
 
     @staticmethod
     @callback
     def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
         return SwissSharedMobilityOptionsFlow()
+
+    # ------------------------------------------------------------ reconfigure
+
+    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None):
+        """Change the entry with the same steps as its setup. The entry
+        keeps its id, so its entities keep their ids and history; the
+        entities of a station or location that is no longer selected are
+        removed and the reload creates the new ones."""
+        self._entry = self._get_reconfigure_entry()
+        if self._entry.data.get(CONF_ENTRY_TYPE) == ENTRY_TYPE_STATION:
+            return await self.async_step_station()
+        return await self.async_step_area()
+
+    def _default(self, key: str, fallback: Any) -> Any:
+        """A form default: the entry's current value while reconfiguring."""
+        if self._entry is not None and key in self._entry.data:
+            return self._entry.data[key]
+        return fallback
+
+    def _abort_if_taken(self) -> None:
+        """Like _abort_if_unique_id_configured, except that the entry being
+        reconfigured may keep its own unique id."""
+        if self._entry is None or self.unique_id != self._entry.unique_id:
+            self._abort_if_unique_id_configured()
+
+    def _finish(self, *, title: str, data: dict[str, Any], options: dict[str, Any] | None = None):
+        """Create the entry, or update the one being reconfigured in place."""
+        if self._entry is None:
+            if options is not None:
+                return self.async_create_entry(title=title, data=data, options=options)
+            return self.async_create_entry(title=title, data=data)
+        entry = self._entry
+        if self.unique_id != entry.unique_id:
+            # Another station, location or operator: the entities of the old
+            # one would stay behind as orphans. Drop their registry rows; the
+            # reload creates the new entities, and one whose unique id comes
+            # back gets its entity id back as well.
+            registry = er.async_get(self.hass)
+            for reg_entry in list(er.async_entries_for_config_entry(registry, entry.entry_id)):
+                registry.async_remove(reg_entry.entity_id)
+        # Update, then let the entry's update listener reload it (Home
+        # Assistant asks integrations with a listener to do it that way).
+        # Where the listener only refreshes, the reload is scheduled here.
+        self.hass.config_entries.async_update_entry(
+            entry,
+            unique_id=self.unique_id,
+            title=title,
+            data=data,
+            options=self._reconfigured_options(entry, options),
+        )
+        if not _LISTENER_RELOADS:
+            self.hass.config_entries.async_schedule_reload(entry.entry_id)
+        return self.async_abort(reason="reconfigure_successful")
+
+    def _reconfigured_options(self, entry, options: dict[str, Any] | None) -> dict[str, Any]:
+        """The user's current options; an area form carries the categories
+        and the interval again, so those two follow the form."""
+        merged = dict(entry.options)
+        if options and CONF_CATEGORIES in options:
+            merged[CONF_CATEGORIES] = options[CONF_CATEGORIES]
+            merged[CONF_SCAN_INTERVAL] = options[CONF_SCAN_INTERVAL]
+        return merged
+
+    def _default_option(self, key: str, fallback: Any) -> Any:
+        if self._entry is not None and key in self._entry.options:
+            return self._entry.options[key]
+        return fallback
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         return self.async_show_menu(step_id="user", menu_options=["area", "station"])
@@ -105,7 +178,7 @@ class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors["base"] = "no_category"
             else:
                 await self.async_set_unique_id(f"area_{lat:.4f}_{lon:.4f}_{radius}")
-                self._abort_if_unique_id_configured()
+                self._abort_if_taken()
                 client = SharedMobilityClient(async_get_clientsession(self.hass))
                 try:
                     # One page is enough to prove the API answers.
@@ -113,7 +186,7 @@ class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):
                 except SharedMobilityError:
                     errors["base"] = "cannot_connect"
                 else:
-                    return self.async_create_entry(
+                    return self._finish(
                         title=user_input[CONF_NAME],
                         data={
                             CONF_ENTRY_TYPE: ENTRY_TYPE_AREA,
@@ -130,18 +203,18 @@ class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):
                     )
 
         default_location = {
-            CONF_LATITUDE: self.hass.config.latitude,
-            CONF_LONGITUDE: self.hass.config.longitude,
-            CONF_RADIUS: DEFAULT_RADIUS_M,
+            CONF_LATITUDE: self._default(CONF_LATITUDE, self.hass.config.latitude),
+            CONF_LONGITUDE: self._default(CONF_LONGITUDE, self.hass.config.longitude),
+            CONF_RADIUS: self._default(CONF_RADIUS, DEFAULT_RADIUS_M),
         }
         schema = vol.Schema(
             {
-                vol.Required(CONF_NAME, default=self.hass.config.location_name or "Home"): TextSelector(),
+                vol.Required(CONF_NAME, default=self._entry.title if self._entry else (self.hass.config.location_name or "Home")): TextSelector(),
                 vol.Required(CONF_LOCATION, default=default_location): LocationSelector(
                     LocationSelectorConfig(radius=True)
                 ),
-                vol.Required(CONF_CATEGORIES, default=DEFAULT_CATEGORIES): _CATEGORY_SELECTOR,
-                vol.Required(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL_MIN): _INTERVAL_SELECTOR,
+                vol.Required(CONF_CATEGORIES, default=self._default_option(CONF_CATEGORIES, DEFAULT_CATEGORIES)): _CATEGORY_SELECTOR,
+                vol.Required(CONF_SCAN_INTERVAL, default=self._default_option(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MIN)): _INTERVAL_SELECTOR,
             }
         )
         return self.async_show_form(
@@ -172,9 +245,9 @@ class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             offer = self._candidates[user_input[CONF_STATION_ID]]
             await self.async_set_unique_id(f"station_{offer.id}")
-            self._abort_if_unique_id_configured()
+            self._abort_if_taken()
             name = offer.station_name or offer.id
-            return self.async_create_entry(
+            return self._finish(
                 title=f"{name} ({offer.provider_name})",
                 data={
                     CONF_ENTRY_TYPE: ENTRY_TYPE_STATION,
