@@ -22,9 +22,9 @@ vehicles_available:
           step: 1
           mode: box
   target:
-  entity:
-    - integration: swiss_shared_mobility
-      domain: sensor
+    entity:
+      - integration: swiss_shared_mobility
+        domain: sensor
 
 nearest_vehicle_within:
   fields:
