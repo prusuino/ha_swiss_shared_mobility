@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 """Constants for the Swiss Shared Mobility integration."""
 DOMAIN = "swiss_shared_mobility"
 
@@ -76,3 +78,7 @@ CATEGORY_ICONS = {
 }
 
 GEO_SOURCE = DOMAIN
+
+# The integration's own version, shown on the service card. Read from the
+# manifest so that a release never needs to touch two places.
+VERSION: str = json.loads((Path(__file__).parent / "manifest.json").read_text(encoding="utf-8"))["version"]

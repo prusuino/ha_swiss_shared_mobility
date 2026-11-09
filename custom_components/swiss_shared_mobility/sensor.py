@@ -20,6 +20,7 @@ from .const import (
     CONF_STATION_NAME,
     DOMAIN,
     ENTRY_TYPE_STATION,
+    VERSION,
 )
 from .coordinator import AreaCoordinator, StationCoordinator
 
@@ -27,6 +28,7 @@ from .coordinator import AreaCoordinator, StationCoordinator
 def device_info(entry: ConfigEntry) -> DeviceInfo:
     return DeviceInfo(
         identifiers={(DOMAIN, entry.entry_id)},
+        sw_version=VERSION,
         name=entry.title,
         manufacturer="sharedmobility.ch",
         model="Station" if entry.data.get(CONF_ENTRY_TYPE) == ENTRY_TYPE_STATION else "Area",

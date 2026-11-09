@@ -2,6 +2,7 @@
 
 ## 1.5.0 — 2026-11-09
 
+- **Version on the service card.** The integration's version now appears on its service card under Settings → Devices & services, where the entities are listed.
 - **Repair notices.** An unreachable sharedmobility.ch raises a notice under Settings → Repairs after three failed refreshes, a favorite station that is no longer reported after about an hour; both withdraw themselves. No change to entities or configuration.
 
 ## 1.4.0 — 2026-11-09
