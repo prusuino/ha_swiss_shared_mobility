@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0 — 2026-11-09
+
+- **Quality scale Bronze.** The README gained removal instructions and a quality-scale section, and the manifest declares the **bronze** tier. A test suite (feature parsing, vehicle categories, station splits, area summary, config flow with area checks, station search, duplicate, unreachable service and reconfigure) runs on every push. No change to entities or configuration.
+
 ## 1.3.0 — 2026-11-08
 
 - **New: reconfigure an entry in place.** The entry's menu under **Settings → Devices & services** now offers *Reconfigure*, which runs the same steps as the setup: a new name, location, radius, categories or interval for an area, another station for a station entry. The entry keeps its id and the user's options; entities of a selection that stays keep their ids and history, entities of one that is replaced are recreated. A change that would duplicate another entry is refused.

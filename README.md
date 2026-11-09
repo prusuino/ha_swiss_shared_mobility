@@ -172,6 +172,15 @@ conditions:
       metres: 300
 ```
 
+## Removal
+
+1. **Settings → Devices & services → Swiss Shared Mobility**, open the entry's menu (⋮) and choose **Delete**; repeat for every area and station. The entities, their history, the map markers and the device go with the entry.
+2. Remove the integration itself in the **Marketplace** (or HACS; it was added as a custom repository), then restart Home Assistant. With a manual installation, delete `custom_components/swiss_shared_mobility` instead.
+
+## Quality scale
+
+The integration declares **Bronze** on the [Home Assistant integration quality scale](https://developers.home-assistant.io/docs/core/integration-quality-scale/): a config flow with tests, unique ids for every entity, brand images, installation and removal instructions, a connection check before an entry is created, no duplicate entries, runtime data on the config entry, and the other Bronze rules. The tier is self-assessed, as it is for every custom integration; the per-rule status, including what is still open for Silver and Gold, is in `custom_components/swiss_shared_mobility/quality_scale.yaml`.
+
 ## Notes
 
 - Only relevant for locations in Switzerland (and Liechtenstein, where a few providers report too).
