@@ -191,5 +191,15 @@
         }
       }
     }
+  },
+  "issues": {
+    "unreachable": {
+      "title": "Swiss Shared Mobility: servizio non raggiungibile",
+      "description": "Il servizio all'indirizzo {host} non ha risposto per diversi aggiornamenti consecutivi. Controlla la connessione internet; se funziona, è il servizio stesso a essere guasto. Le entità restano non disponibili fino ad allora e si ripristinano da sole; questo avviso scompare con il prossimo aggiornamento riuscito."
+    },
+    "station_missing": {
+      "title": "Swiss Shared Mobility: stazione non più segnalata",
+      "description": "sharedmobility.ch non segnala più la stazione {station} da circa un'ora. Il fornitore potrebbe averla rimossa o spostata. I suoi sensori restano non disponibili. Scegli un'altra stazione con «Riconfigura» nel menu della voce, oppure rimuovi la voce; questo avviso scompare appena la stazione viene segnalata di nuovo."
+    }
   }
 }

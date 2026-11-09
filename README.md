@@ -183,6 +183,7 @@ The integration declares **Bronze** on the [Home Assistant integration quality s
 
 ## Notes
 
+- **Repairs.** When sharedmobility.ch has not answered for three refreshes in a row, or a favorite station has not been reported for about an hour, a notice appears under **Settings → Repairs**; it disappears on its own when the data is back.
 - Only relevant for locations in Switzerland (and Liechtenstein, where a few providers report too).
 - Data freshness depends on each provider's own feed. sharedmobility.ch refreshes about every minute; the default polling of 2 minutes keeps the load on the public API low.
 - Some providers report their vehicles only with the generic type "Other" — tick **Other** if a provider you expect is missing.

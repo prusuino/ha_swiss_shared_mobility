@@ -8,6 +8,7 @@ from homeassistant.core import HomeAssistant
 from .const import CONF_ENTRY_TYPE, ENTRY_TYPE_STATION
 from .coordinator import AreaCoordinator, StationCoordinator
 from .frontend import async_serve_frontend
+from .issues import async_clear_entry_issues
 
 PLATFORMS_AREA = [Platform.SENSOR, Platform.GEO_LOCATION]
 PLATFORMS_STATION = [Platform.SENSOR]
@@ -37,4 +38,7 @@ async def _async_options_updated(hass: HomeAssistant, entry: ConfigEntry) -> Non
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    return await hass.config_entries.async_unload_platforms(entry, _platforms(entry))
+    unloaded = await hass.config_entries.async_unload_platforms(entry, _platforms(entry))
+    if unloaded:
+        async_clear_entry_issues(hass, entry.entry_id)
+    return unloaded

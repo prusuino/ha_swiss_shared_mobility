@@ -191,5 +191,15 @@
         }
       }
     }
+  },
+  "issues": {
+    "unreachable": {
+      "title": "Swiss Shared Mobility: service unreachable",
+      "description": "The service at {host} has not answered for several refreshes in a row. Check your internet connection; if it is fine, the service itself is down. The entities stay unavailable until then and recover on their own; this notice disappears with the next successful refresh."
+    },
+    "station_missing": {
+      "title": "Swiss Shared Mobility: station no longer reported",
+      "description": "sharedmobility.ch has not reported the station {station} for about an hour. The provider may have removed or moved it. Its sensors stay unavailable. Pick another station with Reconfigure in the entry's menu, or remove the entry; this notice disappears when the station is reported again."
+    }
   }
 }

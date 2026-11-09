@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 — 2026-11-09
+
+- **Repair notices.** An unreachable sharedmobility.ch raises a notice under Settings → Repairs after three failed refreshes, a favorite station that is no longer reported after about an hour; both withdraw themselves. No change to entities or configuration.
+
 ## 1.4.0 — 2026-11-09
 
 - **Quality scale Bronze.** The README gained removal instructions and a quality-scale section, and the manifest declares the **bronze** tier. A test suite (feature parsing, vehicle categories, station splits, area summary, config flow with area checks, station search, duplicate, unreachable service and reconfigure) runs on every push. No change to entities or configuration.

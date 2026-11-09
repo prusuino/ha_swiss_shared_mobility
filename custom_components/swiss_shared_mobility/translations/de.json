@@ -191,5 +191,15 @@
         }
       }
     }
+  },
+  "issues": {
+    "unreachable": {
+      "title": "Swiss Shared Mobility: Dienst nicht erreichbar",
+      "description": "Der Dienst unter {host} hat mehrere Aktualisierungen in Folge nicht beantwortet. Prüfe deine Internetverbindung; ist sie in Ordnung, ist der Dienst selbst gestört. Die Entitäten bleiben bis dahin nicht verfügbar und erholen sich von selbst; dieser Hinweis verschwindet mit der nächsten erfolgreichen Aktualisierung."
+    },
+    "station_missing": {
+      "title": "Swiss Shared Mobility: Station wird nicht mehr gemeldet",
+      "description": "sharedmobility.ch hat die Station {station} seit etwa einer Stunde nicht mehr gemeldet. Der Anbieter hat sie vielleicht entfernt oder verschoben. Ihre Sensoren bleiben nicht verfügbar. Wähle mit „Neu konfigurieren“ im Menü des Eintrags eine andere Station oder entferne den Eintrag; dieser Hinweis verschwindet, sobald die Station wieder gemeldet wird."
+    }
   }
 }

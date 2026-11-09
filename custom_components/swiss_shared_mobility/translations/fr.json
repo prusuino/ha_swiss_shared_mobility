@@ -191,5 +191,15 @@
         }
       }
     }
+  },
+  "issues": {
+    "unreachable": {
+      "title": "Swiss Shared Mobility : service injoignable",
+      "description": "Le service à l'adresse {host} n'a pas répondu lors de plusieurs actualisations consécutives. Vérifie ta connexion internet ; si elle fonctionne, le service lui-même est en panne. Les entités restent indisponibles jusque-là et se rétablissent d'elles-mêmes ; cet avis disparaît à la prochaine actualisation réussie."
+    },
+    "station_missing": {
+      "title": "Swiss Shared Mobility : station plus signalée",
+      "description": "sharedmobility.ch ne signale plus la station {station} depuis environ une heure. L'opérateur l'a peut-être supprimée ou déplacée. Ses capteurs restent indisponibles. Choisis une autre station via « Reconfigurer » dans le menu de l'entrée, ou supprime l'entrée ; cet avis disparaît dès que la station est de nouveau signalée."
+    }
   }
 }

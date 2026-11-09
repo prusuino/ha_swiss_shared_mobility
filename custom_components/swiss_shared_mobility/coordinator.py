@@ -27,6 +27,8 @@ from .const import (
     STATION_TOLERANCE_M,
 )
 
+from .issues import IssueReporter
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -95,6 +97,7 @@ class AreaCoordinator(DataUpdateCoordinator[AreaData]):
             update_interval=timedelta(minutes=minutes),
         )
         self.client = SharedMobilityClient(async_get_clientsession(hass))
+        self.issues = IssueReporter(hass, entry.entry_id)
 
     @property
     def categories(self) -> list[str]:
@@ -107,7 +110,9 @@ class AreaCoordinator(DataUpdateCoordinator[AreaData]):
                 entry.data[CONF_LATITUDE], entry.data[CONF_LONGITUDE], int(entry.data[CONF_RADIUS])
             )
         except SharedMobilityError as err:
+            self.issues.failure("unreachable", {"host": "sharedmobility.ch"})
             raise UpdateFailed(str(err)) from err
+        self.issues.clear("unreachable")
         return summarize(offers, self.categories, list(entry_value(entry, CONF_PROVIDERS, [])))
 
 
@@ -124,6 +129,7 @@ class StationCoordinator(DataUpdateCoordinator[Offer | None]):
             update_interval=timedelta(minutes=minutes),
         )
         self.client = SharedMobilityClient(async_get_clientsession(hass))
+        self.issues = IssueReporter(hass, entry.entry_id)
 
     async def _async_update_data(self) -> Offer | None:
         entry = self.config_entry
@@ -132,9 +138,16 @@ class StationCoordinator(DataUpdateCoordinator[Offer | None]):
                 entry.data[CONF_LATITUDE], entry.data[CONF_LONGITUDE], STATION_TOLERANCE_M
             )
         except SharedMobilityError as err:
+            self.issues.failure("unreachable", {"host": "sharedmobility.ch"})
             raise UpdateFailed(str(err)) from err
+        self.issues.clear("unreachable")
         station_id = entry.data[CONF_STATION_ID]
         offer = next((o for o in offers if o.id == station_id), None)
+        if offer is None:
+            # Not reported for about an hour: the station may be gone.
+            self.issues.failure("station_missing", {"station": entry.title}, after=30)
+        else:
+            self.issues.clear("station_missing")
         if offer is not None and offer.count > 0:
             self._remember_categories(offer)
         return offer
