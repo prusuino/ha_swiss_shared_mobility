@@ -17,6 +17,8 @@ sharedmobility.ch combines the live data of the Swiss shared-mobility providers 
 
 ## What it provides
 
+![Example dashboard for an area around Zurich main station with the vehicle counts per type, a station, the vehicles per provider and the map markers](docs/dashboard.png)
+
 ### Area
 
 | Entity | Description |
