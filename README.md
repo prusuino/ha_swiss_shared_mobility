@@ -36,7 +36,7 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
 
 | Entity | Description |
 |---|---|
-| `sensor.shared_mobility_<station>_available` | Number of vehicles available at the station, named after the vehicle type (e.g. "Olten Bahnhof (Mobility) Cars"; "Vehicles" if the station holds several types). Attributes: provider, vehicle types, `by_category` (count per type), address (if published), whether the station is renting/returning. Unavailable while the provider does not report the station. |
+| `sensor.shared_mobility_<station>_available` | Number of vehicles available at the station, named after the vehicle type (e.g. "Bern Bahnhof (Mobility) Cars"; "Vehicles" if the station holds several types). Attributes: provider, vehicle types, `by_category` (count per type), address (if published), whether the station is renting/returning. Unavailable while the provider does not report the station. |
 | `sensor.shared_mobility_<station>_<type>_available` | Only for stations holding several vehicle types whose provider reports each vehicle: one count per type. Types are learned while the station has vehicles, so a sensor can appear later. Some providers (e.g. Velospot) only publish which types a station accepts — those stations get the single "Vehicles" sensor. |
 
 ## Installation
@@ -59,7 +59,7 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
 1. Go to **Settings → Devices & Services → Add Integration** and search for **"Swiss Shared Mobility"**.
 2. Choose:
    - **Area around a location**: give it a name, place the circle on the map (it starts at your home location; radius 100–2000 m), tick the vehicle types and set the update interval (default 2 min).
-   - **Favorite station**: search the station by name (e.g. "Olten Bahnhof"), then pick it from the list. Only station-based systems have stations; free-floating vehicles are covered by an area.
+   - **Favorite station**: search the station by name (e.g. "Bern Bahnhof"), then pick it from the list. Only station-based systems have stations; free-floating vehicles are covered by an area.
 3. Later changes (vehicle types, provider filter, interval, map markers) via **Configure** on the integration entry.
 
 **Changing an entry later.** Open the entry's menu (⋮) under **Settings → Devices & Services** and choose **Reconfigure**: an area takes a new name, location, radius, categories or interval, a station entry runs the station search again. The entry keeps its id and the other options; entities keep their ids where the selection stays.

@@ -7,7 +7,7 @@ from custom_components.swiss_shared_mobility.coordinator import summarize
 
 
 def _feature(fid, vtypes, pickup="free_floating", **attrs):
-    return {"id": fid, "geometry": {"x": 7.90, "y": 47.35},
+    return {"id": fid, "geometry": {"x": 7.44, "y": 46.95},
             "attributes": {"id": fid, "provider_id": "publibike", "provider_name": "PubliBike", "vehicle_type": vtypes, "pickup_type": pickup, **attrs}}
 
 
@@ -19,11 +19,11 @@ def test_categories_and_labels():
     assert provider_label("lime", "Lime City partners from Partners::RegionFeedMediator") == "Lime"
     assert provider_label("mobility_ch", "") == "Mobility Ch"
     assert provider_label("x", "Nextbike") == "Nextbike"
-    assert round(distance_m(47.35, 7.90, 47.35, 7.91)) == 753
+    assert round(distance_m(46.95, 7.44, 46.95, 7.45)) == 759
 
 
 def test_free_floating_vehicle():
-    offer = parse_feature(_feature("v1", "E-Scooter"), 47.35, 7.89)
+    offer = parse_feature(_feature("v1", "E-Scooter"), 46.95, 7.43)
     assert offer.categories == ["e_scooter"] and offer.count == 1 and offer.by_category == {"e_scooter": 1}
     assert offer.pickup_type == "free_floating"
     assert 740 < offer.distance_m < 770
