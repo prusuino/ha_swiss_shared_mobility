@@ -8,6 +8,16 @@
 
 A Home Assistant custom integration that shows shared bikes, e-bikes, e-scooters, mopeds and cars available near you in Switzerland, sourced from the official **sharedmobility.ch** platform of the Swiss Federal Office of Energy (SFOE).
 
+## Highlights
+
+- **Around 45 sharing systems in one place**: bikes, e-bikes, cargo bikes, e-scooters, mopeds and cars from sharedmobility.ch, the official API of the SFOE — no account or key.
+- **What is around me**: an area gives the number of available vehicles per type and the distance to the nearest one; optionally the 50 nearest vehicles as map markers.
+- **Or one station**: a favorite station of a station-based system as its own entry.
+- **Built for the automation editor**: triggers (vehicle count crossed a threshold, nearest vehicle crossed a distance) and conditions (vehicles are available, nearest vehicle is within) — no templates needed.
+- **A dashboard without building one**: the bundled strategy brings Map, Areas and Stations views.
+- **Light on the public API**: polled every 2 minutes by default; sensors go unavailable instead of showing stale data, and a repair notice tells you when the source stays silent.
+- **Set up in a minute**: place a circle on the map and tick the vehicle types; German, English, French and Italian, with entity ids that are English in every language; diagnostics download with your coordinates redacted.
+
 ## Background
 
 sharedmobility.ch combines the live data of the Swiss shared-mobility providers (around 45 systems, e.g. PubliBike, Velospot, Donkey Republic, nextbike, Bolt, Dott, Lime, Voi, Bird, Mobility car sharing) in one open API — no account or key required. The integration offers two independent ways to use it, chosen when you add the integration:
