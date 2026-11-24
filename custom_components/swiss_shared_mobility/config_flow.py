@@ -29,10 +29,6 @@ from homeassistant.helpers.selector import (
     TextSelector,
 )
 
-# Whether the entry's update listener reloads the entry on a change (then a
-# reconfigure must not reload again, see _finish).
-_LISTENER_RELOADS = True
-
 from .api import Offer, SharedMobilityClient, SharedMobilityError
 from .const import (
     CATEGORIES,
@@ -79,6 +75,11 @@ _INTERVAL_SELECTOR = NumberSelector(
         mode=NumberSelectorMode.SLIDER,
     )
 )
+
+
+# Whether the entry's update listener reloads the entry on a change (then a
+# reconfigure must not reload again, see _finish).
+_LISTENER_RELOADS = True
 
 
 class SwissSharedMobilityConfigFlow(ConfigFlow, domain=DOMAIN):

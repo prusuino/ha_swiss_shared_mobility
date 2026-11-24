@@ -1,6 +1,7 @@
+"""Constants for the Swiss Shared Mobility integration."""
 import json
 from pathlib import Path
-"""Constants for the Swiss Shared Mobility integration."""
+
 DOMAIN = "swiss_shared_mobility"
 
 ATTRIBUTION = "Data: sharedmobility.ch (Swiss Federal Office of Energy SFOE)"
@@ -15,6 +16,9 @@ FETCH_TIMEOUT_SECONDS = 30
 PAGE_SIZE = 50
 MAX_PAGES = 30
 PAGE_BATCH = 4
+# Upper bound for one complete area refresh (all pages). Without it a large
+# radius in a big city at the slowest page time could take minutes.
+IDENTIFY_TIMEOUT_SECONDS = 120
 
 CONF_ENTRY_TYPE = "entry_type"
 ENTRY_TYPE_AREA = "area"

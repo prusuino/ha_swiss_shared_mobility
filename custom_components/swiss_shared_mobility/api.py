@@ -19,6 +19,7 @@ from .const import (
     CATEGORY_VEHICLE_TYPES,
     FETCH_TIMEOUT_SECONDS,
     MAX_PAGES,
+    IDENTIFY_TIMEOUT_SECONDS,
     PAGE_BATCH,
     PAGE_SIZE,
 )
@@ -92,7 +93,10 @@ def parse_feature(feature: dict[str, Any], lat: float | None = None, lon: float 
     pickup_type = attrs.get("pickup_type") or "free_floating"
     if pickup_type == "station_based":
         renting = attrs.get("station_status_renting", True) is not False
-        count = int(attrs.get("station_status_num_vehicle_available") or 0) if renting else 0
+        try:
+            count = int(attrs.get("station_status_num_vehicle_available") or 0) if renting else 0
+        except (TypeError, ValueError):  # garbage in the feed: skip this offer
+            return None
     else:
         usable = (
             attrs.get("available", True) is not False
@@ -148,9 +152,9 @@ class SharedMobilityClient:
     async def _get(self, path: str, params: dict[str, Any]) -> list[dict[str, Any]]:
         try:
             async with asyncio.timeout(FETCH_TIMEOUT_SECONDS):
-                resp = await self._session.get(f"{API_BASE}/{path}", params=params)
-                resp.raise_for_status()
-                data = await resp.json(content_type=None)
+                async with self._session.get(f"{API_BASE}/{path}", params=params) as resp:
+                    resp.raise_for_status()
+                    data = await resp.json(content_type=None)
         except (aiohttp.ClientError, TimeoutError) as err:
             raise SharedMobilityError(f"sharedmobility.ch request failed: {err}") from err
         except ValueError as err:
@@ -167,6 +171,13 @@ class SharedMobilityClient:
         One page takes the API 3-8 s (measured 2026-10-29), so pages are
         requested in small parallel batches until a short page shows the end.
         """
+        try:
+            async with asyncio.timeout(IDENTIFY_TIMEOUT_SECONDS):
+                return await self._identify(lat, lon, radius_m, max_pages)
+        except TimeoutError as err:
+            raise SharedMobilityError("sharedmobility.ch took too long for all pages") from err
+
+    async def _identify(self, lat: float, lon: float, radius_m: int, max_pages: int) -> list[Offer]:
         params = {"Geometry": f"{lon},{lat}", "Tolerance": int(radius_m), "geometryFormat": "esrijson"}
         offers: list[Offer] = []
         seen: set[str] = set()

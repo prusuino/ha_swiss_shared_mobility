@@ -41,7 +41,7 @@ sharedmobility.ch combines the live data of the Swiss shared-mobility providers 
 | `sensor.shared_mobility_<name>_available` | Number of available vehicles of the selected types within the radius. Attributes: `by_category`, `by_provider`, `radius_m`, `stations`. |
 | `sensor.shared_mobility_<name>_<type>_available` | One per selected vehicle type (`bike`, `e_bike`, `cargo_bike`, `e_scooter`, `moped`, `car`, `other`). Attributes: distance and provider of the nearest one. |
 | `sensor.shared_mobility_<name>_nearest` | Distance (m) to the nearest available vehicle of the selected types. Attributes: provider, type, pickup type, coordinates, station name for station-based systems. |
-| `geo_location.*` | Optional (see options): the 50 nearest available vehicles as markers on any Map card (`geo_location_sources: swiss_shared_mobility`). |
+| `geo_location.*` | Optional (see options): the 50 nearest available vehicles as markers on any Map card (`geo_location_sources: swiss_shared_mobility`). Attributes: `provider`, `categories`, `available` (vehicles at that point). Withdrawn while sharedmobility.ch does not answer. |
 
 `<name>` is the name you give the area, e.g. `sensor.shared_mobility_home_available`. Entity IDs are English whatever language Home Assistant uses.
 
@@ -75,7 +75,14 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
 2. Choose:
    - **Area around a location**: give it a name, place the circle on the map (it starts at your home location; radius 100–2000 m), tick the vehicle types and set the update interval (default 2 min).
    - **Favorite station**: search the station by name (e.g. "Bern Bahnhof"), then pick it from the list. Only station-based systems have stations; free-floating vehicles are covered by an area.
-3. Later changes (vehicle types, provider filter, interval, map markers) via **Configure** on the integration entry.
+3. Later changes via **Configure** on the integration entry:
+
+| Option | Default | Description |
+|---|---|---|
+| Vehicle types | as chosen at setup | Area only: which types count, one sensor each. A deselected type's sensor is removed. |
+| Providers | all | Area only: count vehicles of the selected providers; the list shows the providers seen in the area. |
+| Update interval | 2 min | 1–10 minutes (area and station). |
+| Show on map | off | Area only: the 50 nearest vehicles as `geo_location` markers. |
 
 **Changing an entry later.** Open the entry's menu (⋮) under **Settings → Devices & Services** and choose **Reconfigure**: an area takes a new name, location, radius, categories or interval, a station entry runs the station search again. The entry keeps its id and the other options; entities keep their ids where the selection stays.
 

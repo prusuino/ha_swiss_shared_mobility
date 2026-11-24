@@ -4,9 +4,9 @@ user, or when a problem has lasted long enough to be worth a word.
 Two kinds are raised here. A transport failure (the service does not
 answer) becomes an issue only after several refreshes in a row, since one
 network hiccup is not worth a notice, and it disappears on its own with the
-next successful refresh. A configuration that no longer matches the data (a
-station or region that is gone) is raised at once and stays until the entry
-is reconfigured or the item is back. Issues are not persistent: a restart
+next successful refresh. A favourite station that the service no longer
+reports is raised after 30 refreshes in a row without it and stays until the
+entry is reconfigured or the station is back. Issues are not persistent: a restart
 clears them, and the next refresh raises them again if the problem is
 still there.
 """

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.0 — 2026-11-24
+
+- **Map markers no longer show old positions.** While sharedmobility.ch does not answer, the markers are withdrawn and return with the next good refresh (until now they stayed where the vehicles were last seen).
+- **No leftover sensors.** A vehicle type deselected under *Configure* no longer stays behind as an unavailable sensor; it is removed with the next start of the entry.
+- **Bounded refresh.** One area refresh (all pages) now gives up after two minutes and counts as "not answering", instead of running for minutes with a large radius in a big city. Connections are always released, also on an error answer, and a station with a garbled vehicle count is skipped instead of failing the whole refresh.
+- **Triggers and conditions** are offered exactly from the versions the documentation names (2026.10 and 2026.11); on 2026.4 to 2026.9 they could appear without working fully.
+- An area name without any letters or digits (e.g. only an emoji) gets a valid entity id.
+- README: table of the options and the map-marker attributes; SECURITY.md names both endpoints. The quality-scale file now states honestly that icon translations are not done yet.
+
 ## 1.5.1 — 2026-11-19
 
 - The Home Assistant Marketplace lists the integration under *Vehicles & transport → Bikes & scooters*. The repository is marked as made for Switzerland. Nothing changes in how the integration works.
@@ -20,7 +29,7 @@
 
 ## 1.2.1 — 2026-11-06
 
-- **Fixed: the diagnostics download could contain private values.** The entry's unique id went out unredacted: depending on the integration it holds the coordinates of the entry or, for a VKF entry of Swiss Hail Protection, the device serial. The text of the last error could also repeat a request URL. The unique id, the entry title and the entry's name and location fields are now redacted, and only the type of the last error is reported. If you have shared a diagnostics file from the previous version, consider it exposed.
+- **Fixed: the diagnostics download could contain private values.** The entry's unique id went out unredacted; it holds the coordinates of the entry. The text of the last error could also repeat a request URL. The unique id, the entry title and the entry's name and location fields are now redacted, and only the type of the last error is reported. If you have shared a diagnostics file from the previous version, consider it exposed.
 
 ## 1.2.0 — 2026-11-06
 

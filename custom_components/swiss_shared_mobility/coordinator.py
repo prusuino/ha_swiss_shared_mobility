@@ -144,7 +144,8 @@ class StationCoordinator(DataUpdateCoordinator[Offer | None]):
         station_id = entry.data[CONF_STATION_ID]
         offer = next((o for o in offers if o.id == station_id), None)
         if offer is None:
-            # Not reported for about an hour: the station may be gone.
+            # Not reported for 30 refreshes in a row (30 min to 5 h, depending
+            # on the interval): the station may be gone.
             self.issues.failure("station_missing", {"station": entry.title}, after=30)
         else:
             self.issues.clear("station_missing")

@@ -6,7 +6,8 @@ from typing import Any
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfLength
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -43,11 +44,25 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         entities: list[SensorEntity] = [StationAvailableSensor(coordinator, entry)]
         if len(coordinator.categories) > 1 and coordinator.split_known:
             entities += [StationCategorySensor(coordinator, entry, c) for c in coordinator.categories]
+        _remove_orphans(hass, entry, entities)
         async_add_entities(entities)
         return
     entities: list[SensorEntity] = [AreaTotalSensor(coordinator, entry), NearestSensor(coordinator, entry)]
     entities += [CategorySensor(coordinator, entry, category) for category in coordinator.categories]
+    _remove_orphans(hass, entry, entities)
     async_add_entities(entities)
+
+
+@callback
+def _remove_orphans(hass: HomeAssistant, entry: ConfigEntry, entities: list[SensorEntity]) -> None:
+    """Drop the registry rows of this entry's sensors that are no longer
+    created (a vehicle type deselected in the options), so they do not stay
+    behind as "restored", unavailable entities."""
+    keep = {entity.unique_id for entity in entities}
+    registry = er.async_get(hass)
+    for reg in er.async_entries_for_config_entry(registry, entry.entry_id):
+        if reg.domain == "sensor" and reg.unique_id not in keep:
+            registry.async_remove(reg.entity_id)
 
 
 class _Base(CoordinatorEntity, SensorEntity):
@@ -59,7 +74,8 @@ class _Base(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{entry.entry_id}_{key}"
         self._attr_device_info = device_info(entry)
         # Entity IDs stay English whatever the UI language is.
-        self.entity_id = f"sensor.shared_mobility_{slugify(entry.title)}_{key}"
+        name = slugify(entry.title) or entry.entry_id[-4:].lower()
+        self.entity_id = f"sensor.shared_mobility_{name}_{key}"
 
 
 class AreaTotalSensor(_Base):

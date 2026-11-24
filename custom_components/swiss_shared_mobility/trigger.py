@@ -7,24 +7,30 @@ vehicles or one category), the distance trigger the nearest-vehicle sensor
 of an area. A target that expands to other entities (a device, an area) is
 narrowed to the ones this integration created.
 
-The trigger platform API arrived in Home Assistant 2026.10. On an older
-version the module still imports, but offers no triggers.
+The triggers are offered from Home Assistant 2026.10 on. The trigger
+platform API itself exists since 2026.4, but the behaviour option the
+triggers use ("each") came later, and 2026.10 is the first version they
+were tested on. On an older version the module still imports, but offers
+no triggers.
 """
 from __future__ import annotations
 
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
+from homeassistant.const import MAJOR_VERSION, MINOR_VERSION
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
 
 try:
+    if (MAJOR_VERSION, MINOR_VERSION) < (2026, 10):
+        raise ImportError("triggers need Home Assistant 2026.10")
     from homeassistant.helpers.automation import DomainSpec
     from homeassistant.helpers.trigger import (
         Trigger,
         make_entity_numerical_state_crossed_threshold_trigger,
     )
-except ImportError:  # Home Assistant before 2026.10: no trigger platform API
+except ImportError:  # Home Assistant before 2026.10: no triggers
     TRIGGERS: dict = {}
 else:
     COUNT_SPECS = {SENSOR_DOMAIN: DomainSpec()}

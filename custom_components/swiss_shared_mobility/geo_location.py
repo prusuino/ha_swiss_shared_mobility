@@ -1,7 +1,9 @@
 """Map markers (geo_location) for the nearest available offers of an area.
 
 Off by default (option "Show on map"). At most MAX_MAP_MARKERS markers per
-area entry; the nearest win. Markers come and go with the vehicles.
+area entry; the nearest win. Markers come and go with the vehicles. While
+the service does not answer, the markers are withdrawn instead of showing
+positions that are no longer current; they return with the next good refresh.
 """
 from __future__ import annotations
 
@@ -26,10 +28,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
     @callback
     def _sync() -> None:
-        wanted = {o.id: o for o in coordinator.data.offers[:MAX_MAP_MARKERS]}
+        offers = coordinator.data.offers if coordinator.last_update_success else []
+        wanted = {o.id: o for o in offers[:MAX_MAP_MARKERS]}
         for offer_id in list(markers):
             if offer_id not in wanted:
-                hass.async_create_task(markers.pop(offer_id).async_remove())
+                entry.async_create_task(hass, markers.pop(offer_id).async_remove())
         new = []
         for offer_id, offer in wanted.items():
             if offer_id in markers:

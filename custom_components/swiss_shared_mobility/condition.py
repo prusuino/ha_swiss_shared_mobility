@@ -5,15 +5,17 @@ distance in metres) for the automation editor's condition list. As with
 the triggers, a target that expands to other entities is narrowed to the
 sensors this integration created.
 
-The condition platform API arrived in Home Assistant 2026.11. On an older
-version the module still imports, but offers no conditions.
+The conditions are offered from Home Assistant 2026.11 on. The condition
+platform API itself exists since 2026.4, but 2026.11 is the first version
+they were tested on. On an older version the module still imports, but
+offers no conditions.
 """
 from __future__ import annotations
 
 import voluptuous as vol
 
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
-from homeassistant.const import CONF_FOR, CONF_OPTIONS, CONF_TARGET
+from homeassistant.const import CONF_FOR, CONF_OPTIONS, CONF_TARGET, MAJOR_VERSION, MINOR_VERSION
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import config_validation as cv, entity_registry as er
 
@@ -23,6 +25,8 @@ CONF_LEVEL = "level"
 CONF_METRES = "metres"
 
 try:
+    if (MAJOR_VERSION, MINOR_VERSION) < (2026, 11):
+        raise ImportError("conditions need Home Assistant 2026.11")
     from homeassistant.helpers.automation import DomainSpec
     from homeassistant.helpers.condition import (
         ATTR_BEHAVIOR,
@@ -31,7 +35,7 @@ try:
         Condition,
         EntityConditionBase,
     )
-except ImportError:  # Home Assistant before 2026.11: no condition platform API
+except ImportError:  # Home Assistant before 2026.11: no conditions
     CONDITIONS: dict = {}
 else:
     COUNT_SPECS = {SENSOR_DOMAIN: DomainSpec()}
