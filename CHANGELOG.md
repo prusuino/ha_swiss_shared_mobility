@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.2 — 2026-11-24
+
+- **Diagnostics without distances.** The diagnostics download no longer contains distances: the state of the map markers (their distance from the home zone), distance sensors and every distance field are redacted, like the coordinates already were. The points they lead to are public, so a handful of distances was enough to work out where they were measured from. If you posted a diagnostics file publicly, consider removing it.
+- **In the default catalog.** The integration is now listed in the Marketplace default catalog (formerly the HACS default store): search for it in the Marketplace, no custom repository needed. The README's installation section says so.
+
 ## 1.6.1 — 2026-11-24
 
 - **Distance in any unit.** The trigger *Nearest vehicle crossed a distance* and the condition *Nearest vehicle is within* convert the nearest-vehicle sensor to metres before comparing, so they keep working when its display unit is changed to kilometres, feet or miles (until now they silently stopped). The distance in existing automations stays in metres.

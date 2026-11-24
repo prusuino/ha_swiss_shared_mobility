@@ -2,13 +2,14 @@
 
 ![Swiss Shared Mobility](docs/readme_header.png)
 
-[![marketplace_badge](https://img.shields.io/badge/Marketplace-Custom-41BDF5.svg)](https://hacs.xyz/docs/marketplace/)
+[![marketplace_badge](https://img.shields.io/badge/Marketplace-Default-41BDF5.svg)](https://hacs.xyz/docs/marketplace/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/prusuino/ha_swiss_shared_mobility)](https://github.com/prusuino/ha_swiss_shared_mobility/releases)
 [![Validate](https://github.com/prusuino/ha_swiss_shared_mobility/actions/workflows/validate.yml/badge.svg)](https://github.com/prusuino/ha_swiss_shared_mobility/actions/workflows/validate.yml)
 [![Tests](https://github.com/prusuino/ha_swiss_shared_mobility/actions/workflows/tests.yml/badge.svg)](https://github.com/prusuino/ha_swiss_shared_mobility/actions/workflows/tests.yml)
 [![Home Assistant](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fprusuino%2Fha_swiss_shared_mobility%2Fmain%2Fhacs.json&query=%24.homeassistant&label=Home%20Assistant&suffix=%2B&color=41BDF5)](https://www.home-assistant.io/)
 [![Quality scale](https://img.shields.io/badge/Quality%20Scale-Bronze-cd7f32.svg)](https://developers.home-assistant.io/docs/core/integration-quality-scale/)
+[![Downloads](https://img.shields.io/github/downloads/prusuino/ha_swiss_shared_mobility/total?label=Downloads&color=brightgreen)](https://github.com/prusuino/ha_swiss_shared_mobility/releases)
 <a href="https://www.buymeacoffee.com/prusuino"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="20"></a>
 
 A Home Assistant custom integration that shows shared bikes, e-bikes, e-scooters, mopeds and cars available near you in Switzerland, sourced from the official **sharedmobility.ch** platform of the Swiss Federal Office of Energy (SFOE).
@@ -56,13 +57,15 @@ A station-based offer (e.g. a car-sharing location with three cars) counts with 
 
 ## Installation
 
-### Home Assistant Marketplace (custom repository)
+### Home Assistant Marketplace (recommended)
 
-1. Open **Settings → Marketplace → ⋮ → Custom repositories** (Home Assistant 2026.11 or newer; on older versions **HACS → ⋮ → Custom repositories**), add `https://github.com/prusuino/ha_swiss_shared_mobility` with category **Integration** — or use the button:
+1. Open **Settings → Marketplace** (Home Assistant 2026.11 or newer; on older versions open **HACS**), search for **"Swiss Shared Mobility"** and download it — or use the button, which opens the integration directly in your Marketplace:
 
    [![Open in Marketplace](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=prusuino&repository=ha_swiss_shared_mobility&category=integration)
 
-2. Download **Swiss Shared Mobility** and restart Home Assistant.
+2. Restart Home Assistant.
+
+The integration is listed in the Marketplace default catalog (formerly the HACS default store), so no custom repository is needed.
 
 ### Manual
 
@@ -212,7 +215,7 @@ The integration declares **Bronze** on the [Home Assistant integration quality s
 - Data freshness depends on each provider's own feed. sharedmobility.ch refreshes about every minute; the default polling of 2 minutes keeps the load on the public API low.
 - Some providers report their vehicles only with the generic type "Other" — tick **Other** if a provider you expect is missing.
 - If the API is unreachable, the sensors become unavailable instead of showing stale data.
-- **Download diagnostics** (entry menu under **Settings → Devices & services**) gives the entry's configuration, what the integration last fetched and the current state of its entities, with coordinates, credentials and the entry's title and unique id redacted. Entity ids and names stay readable and can contain a place or stop name, so look through the file before attaching it to a public issue.
+- **Download diagnostics** (entry menu under **Settings → Devices & services**) gives the entry's configuration, what the integration last fetched and the current state of its entities, with coordinates, distances, credentials and the entry's title and unique id redacted. Entity ids and names stay readable and can contain a place or stop name, so look through the file before attaching it to a public issue.
 
 ## Data source & license
 
