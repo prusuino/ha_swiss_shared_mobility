@@ -21,6 +21,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
 from .const import DOMAIN
+from .units import state_in_metres
 
 try:
     if (MAJOR_VERSION, MINOR_VERSION) < (2026, 10):
@@ -55,8 +56,13 @@ else:
         def entity_filter(self, entities: set[str]) -> set[str]:
             return _own_entities(self._hass, super().entity_filter(entities), distance=False)
 
-    class _NearestVehicleCrossed(make_entity_numerical_state_crossed_threshold_trigger(DISTANCE_SPECS, "m")):
-        """The distance to the nearest vehicle crosses the configured threshold."""
+    class _NearestVehicleCrossed(make_entity_numerical_state_crossed_threshold_trigger(DISTANCE_SPECS)):
+        """The distance to the nearest vehicle crosses the configured threshold
+        (metres). The sensor's state is converted to metres first, so a
+        display unit changed to km or ft still compares correctly."""
+
+        def _get_tracked_value(self, state):
+            return state_in_metres(state)
 
         def entity_filter(self, entities: set[str]) -> set[str]:
             return _own_entities(self._hass, super().entity_filter(entities), distance=True)

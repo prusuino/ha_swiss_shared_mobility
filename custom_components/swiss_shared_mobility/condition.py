@@ -20,6 +20,7 @@ from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import config_validation as cv, entity_registry as er
 
 from .const import DOMAIN
+from .units import state_in_metres
 
 CONF_LEVEL = "level"
 CONF_METRES = "metres"
@@ -104,7 +105,7 @@ else:
             return _own_entities(self._hass, super().entity_filter(entities), distance=True)
 
         def is_valid_state(self, entity_state: State) -> bool:
-            distance = _number(entity_state)
+            distance = state_in_metres(entity_state)
             return distance is not None and distance <= self._metres
 
     CONDITIONS: dict[str, type[Condition]] = {

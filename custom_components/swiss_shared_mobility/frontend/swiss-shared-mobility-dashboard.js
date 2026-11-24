@@ -431,8 +431,9 @@ defineDashboardStrategy("swiss-shared-mobility", {
 
     // --- One section per device ---------------------------------------
     // An area and a favourite station are each a device carrying the sensors
-    // of one config entry. Only an area has the "nearest" sensor, which is
-    // how the two kinds are told apart. Suffix lookup mirrors the
+    // of one config entry; the device model ("Area" / "Station") tells
+    // the two apart, the "nearest" sensor only an area has is the
+    // fallback for devices without a model. Suffix lookup mirrors the
     // integration's `<entry_id>_<suffix>` unique ids, so renamed entity ids
     // keep working.
     const areaSections = [];
@@ -443,7 +444,8 @@ defineDashboardStrategy("swiss-shared-mobility", {
       const ids = bySuffix(entities, entryId);
       const hidden = new Set(group.entities.filter((e) => e.hidden_by).map((e) => e.entity_id));
       const visible = (entityId) => (entityId && !hidden.has(entityId) ? entityId : null);
-      const isArea = Boolean(ids.nearest);
+      const model = group.device && group.device.model;
+      const isArea = model ? model === "Area" : Boolean(ids.nearest);
 
       const cards = [];
       const totalId = visible(ids.available);

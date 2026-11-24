@@ -1,12 +1,18 @@
 # Changelog
 
+## 1.6.1 — 2026-11-24
+
+- **Distance in any unit.** The trigger *Nearest vehicle crossed a distance* and the condition *Nearest vehicle is within* convert the nearest-vehicle sensor to metres before comparing, so they keep working when its display unit is changed to kilometres, feet or miles (until now they silently stopped). The distance in existing automations stays in metres.
+- **Icons from the icon translations.** The sensor icons come from the integration's icons file instead of the code; they look the same.
+- **Dashboard:** an area whose nearest-vehicle sensor is disabled is still shown as an area (told apart by the device type).
+- New tests for the map markers during an outage, leftover sensors, the refresh time limit, the distance conversion and the version gate of triggers and conditions.
+
 ## 1.6.0 — 2026-11-24
 
 - **Map markers no longer show old positions.** While sharedmobility.ch does not answer, the markers are withdrawn and return with the next good refresh (until now they stayed where the vehicles were last seen).
 - **No leftover sensors.** A vehicle type deselected under *Configure* no longer stays behind as an unavailable sensor; it is removed with the next start of the entry.
 - **Bounded refresh.** One area refresh (all pages) now gives up after two minutes and counts as "not answering", instead of running for minutes with a large radius in a big city. Connections are always released, also on an error answer, and a station with a garbled vehicle count is skipped instead of failing the whole refresh.
 - **Triggers and conditions** are offered exactly from the versions the documentation names (2026.10 and 2026.11); on 2026.4 to 2026.9 they could appear without working fully.
-- An area name without any letters or digits (e.g. only an emoji) gets a valid entity id.
 - README: table of the options and the map-marker attributes; SECURITY.md names both endpoints. The quality-scale file now states honestly that icon translations are not done yet.
 
 ## 1.5.1 — 2026-11-19

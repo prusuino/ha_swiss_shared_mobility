@@ -1,4 +1,59 @@
 {
+  "entity": {
+    "sensor": {
+      "available": {
+        "default": "mdi:map-marker-radius"
+      },
+      "nearest": {
+        "default": "mdi:map-marker-distance"
+      },
+      "station_vehicles": {
+        "default": "mdi:map-marker-check"
+      },
+      "bike_available": {
+        "default": "mdi:bicycle"
+      },
+      "station_bike": {
+        "default": "mdi:bicycle"
+      },
+      "e_bike_available": {
+        "default": "mdi:bicycle-electric"
+      },
+      "station_e_bike": {
+        "default": "mdi:bicycle-electric"
+      },
+      "cargo_bike_available": {
+        "default": "mdi:bicycle-cargo"
+      },
+      "station_cargo_bike": {
+        "default": "mdi:bicycle-cargo"
+      },
+      "e_scooter_available": {
+        "default": "mdi:scooter-electric"
+      },
+      "station_e_scooter": {
+        "default": "mdi:scooter-electric"
+      },
+      "moped_available": {
+        "default": "mdi:moped-electric"
+      },
+      "station_moped": {
+        "default": "mdi:moped-electric"
+      },
+      "car_available": {
+        "default": "mdi:car"
+      },
+      "station_car": {
+        "default": "mdi:car"
+      },
+      "other_available": {
+        "default": "mdi:help-circle-outline"
+      },
+      "station_other": {
+        "default": "mdi:help-circle-outline"
+      }
+    }
+  },
   "triggers": {
     "vehicle_count_crossed_threshold": {
       "trigger": "mdi:counter"

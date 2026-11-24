@@ -71,9 +71,7 @@ rules:
   entity-disabled-by-default: todo
   entity-translations: done
   exception-translations: todo
-  icon-translations:
-    status: todo
-    comment: Icons are still set in code (per vehicle type), not in icons.json.
+  icon-translations: done
   reconfiguration-flow: done
   repair-issues: done
   stale-devices:

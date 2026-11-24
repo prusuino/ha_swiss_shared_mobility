@@ -15,7 +15,6 @@ from homeassistant.util import slugify
 
 from .const import (
     ATTRIBUTION,
-    CATEGORY_ICONS,
     CONF_ENTRY_TYPE,
     CONF_RADIUS,
     CONF_STATION_NAME,
@@ -74,13 +73,11 @@ class _Base(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f"{entry.entry_id}_{key}"
         self._attr_device_info = device_info(entry)
         # Entity IDs stay English whatever the UI language is.
-        name = slugify(entry.title) or entry.entry_id[-4:].lower()
-        self.entity_id = f"sensor.shared_mobility_{name}_{key}"
+        self.entity_id = f"sensor.shared_mobility_{slugify(entry.title)}_{key}"
 
 
 class AreaTotalSensor(_Base):
     _attr_translation_key = "available"
-    _attr_icon = "mdi:map-marker-radius"
     _attr_state_class = SensorStateClass.MEASUREMENT
 
     def __init__(self, coordinator: AreaCoordinator, entry: ConfigEntry) -> None:
@@ -109,7 +106,6 @@ class CategorySensor(_Base):
         super().__init__(coordinator, entry, f"{category}_available")
         self._category = category
         self._attr_translation_key = f"{category}_available"
-        self._attr_icon = CATEGORY_ICONS.get(category)
 
     @property
     def native_value(self) -> int:
@@ -128,7 +124,6 @@ class CategorySensor(_Base):
 
 class NearestSensor(_Base):
     _attr_translation_key = "nearest"
-    _attr_icon = "mdi:map-marker-distance"
     _attr_device_class = SensorDeviceClass.DISTANCE
     _attr_native_unit_of_measurement = UnitOfLength.METERS
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -171,10 +166,8 @@ class StationAvailableSensor(_Base):
         categories = coordinator.categories
         if len(categories) == 1:
             self._attr_translation_key = f"station_{categories[0]}"
-            self._attr_icon = CATEGORY_ICONS.get(categories[0])
         else:
             self._attr_translation_key = "station_vehicles"
-            self._attr_icon = "mdi:map-marker-check"
 
     @property
     def available(self) -> bool:
@@ -216,7 +209,6 @@ class StationCategorySensor(_Base):
         super().__init__(coordinator, entry, f"{category}_available")
         self._category = category
         self._attr_translation_key = f"{category}_available"
-        self._attr_icon = CATEGORY_ICONS.get(category)
 
     @property
     def available(self) -> bool:
